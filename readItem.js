@@ -1,44 +1,32 @@
 
-// Modules
-const {BrowserWindow} = require('electron')
+const { BrowserWindow } = require('electron');
 
-// Offscreen BrowserWindow
-let offscreenWindow
+let offscreenWindow; // Offscreen BrowserWindow
 
-// Exported readItem function
 module.exports = (url, callback) => {
-
-  // Create offscreen window
   offscreenWindow = new BrowserWindow({
     width: 500,
     height: 500,
     show: false,
     webPreferences: {
-      offscreen: true
-    }
-  })
+      offscreen: true,
+    },
+  });
 
-  // Load item url
-  offscreenWindow.loadURL(url)
+  offscreenWindow.loadURL(url); // Load item url
 
   // Wait for content to finish loading
-  offscreenWindow.webContents.on('did-finish-load', e => {
-
-    // Get page title
-    let title = offscreenWindow.getTitle()
+  offscreenWindow.webContents.on('did-finish-load', (e) => {
+    const title = offscreenWindow.getTitle(); // Get page title
 
     // Get screenshot (thumbnail)
-    offscreenWindow.webContents.capturePage( image => {
-
-      // Get image as dataURL
-      let screenshot = image.toDataURL()
-
-      // Execute callback with new item object
-      callback({ title, screenshot, url })
+    offscreenWindow.webContents.capturePage((image) => {
+      const screenshot = image.toDataURL(); // Get image as dataURL
+      callback({ title, screenshot, url }); // Execute callback with new item object
 
       // Clean up
-      offscreenWindow.close()
-      offscreenWindow = null
-    })
-  })
-}
+      offscreenWindow.close();
+      offscreenWindow = null;
+    });
+  });
+};
