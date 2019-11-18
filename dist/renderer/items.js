@@ -3,6 +3,7 @@
 /* eslint-disable no-undef */
 const fs = require('fs');
 const { shell } = require('electron');
+// class Items {}
 const items = document.getElementById('items'); // DOM nodes
 // Get readerJS contents
 let readerJS;
