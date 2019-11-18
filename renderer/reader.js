@@ -1,6 +1,6 @@
 
 // Create button in remote content to mark item as "Done"
-let readitClose = document.createElement('div')
+const readitClose = document.createElement('div')
 readitClose.innerText = 'Done'
 
 // Style button
@@ -22,7 +22,7 @@ readitClose.onclick = e => {
   // Message parent (opener) window
   window.opener.postMessage({
     action: 'delete-reader-item',
-    itemIndex: {{index}}
+    itemIndex: {{ index }}
   }, '*')
 }
 

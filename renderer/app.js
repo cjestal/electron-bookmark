@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-undef */
 
 // Modules
 const { ipcRenderer } = require('electron');
@@ -16,8 +19,7 @@ window.newItem = () => {
   showModal.click();
 };
 
-// Ref items.open globally
-window.openItem = items.open;
+window.openItem = items.open; // Ref items.open globally
 
 // Ref items.delete globally
 window.deleteItem = () => {
@@ -25,22 +27,18 @@ window.deleteItem = () => {
   items.delete(selectedItem.index);
 };
 
-// Open item in native browser
-window.openItemNative = items.openNative;
+window.openItemNative = items.openNative; // Open item in native browser
 
 // Focus to search items
 window.searchItems = () => {
   search.focus();
 };
 
-
 // Filter items with "search"
 search.addEventListener('keyup', (e) => {
-  // Loop items
   Array.from(document.getElementsByClassName('read-item')).forEach((item) => {
-    // Hide items that don't match search value
     const hasMatch = item.innerText.toLowerCase().includes(search.value);
-    item.style.display = hasMatch ? 'flex' : 'none';
+    item.style.display = hasMatch ? 'flex' : 'none'; // Hide items that don't match search value
   });
 });
 
@@ -82,21 +80,15 @@ closeModal.addEventListener('click', (e) => {
 addItem.addEventListener('click', (e) => {
   // Check a url exists
   if (itemUrl.value) {
-    // Send new item url to main process
-    ipcRenderer.send('new-item', itemUrl.value);
-
-    // Disable buttons
-    toggleModalButtons();
+    ipcRenderer.send('new-item', itemUrl.value); // Send new item url to main process
+    toggleModalButtons(); // Disable buttons
   }
 });
 
 // Listen for new item from main process
 ipcRenderer.on('new-item-success', (e, newItem) => {
-  // Add new item to "items" node
-  items.addItem(newItem, true);
-
-  // Enable buttons
-  toggleModalButtons();
+  items.addItem(newItem, true); // Add new item to "items" node
+  toggleModalButtons(); // Enable buttons
 
   // Hide modal and clear value
   modal.style.display = 'none';
