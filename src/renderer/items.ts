@@ -4,10 +4,12 @@
 const fs = require('fs');
 const { shell } = require('electron');
 
+// class Items {}
+
 const items = document.getElementById('items'); // DOM nodes
 
 // Get readerJS contents
-let readerJS;
+let readerJS: any;
 fs.readFile(`${__dirname}/reader.js`, (err, data) => {
   readerJS = data.toString();
 });
@@ -16,7 +18,7 @@ fs.readFile(`${__dirname}/reader.js`, (err, data) => {
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || [];
 
 // Delete item
-exports.delete = (itemIndex) => {
+exports.delete = (itemIndex: number) => {
   items.removeChild(items.childNodes[itemIndex]); // Remove item from DOM
   this.storage.splice(itemIndex, 1); // Remove from storage
   this.save(); // Persist
@@ -47,13 +49,13 @@ exports.save = () => {
 };
 
 // Set item as selected
-exports.select = (e) => {
+exports.select = (e: any) => {
   this.getSelectedItem().node.classList.remove('selected'); // Remove currently selected item class
   e.currentTarget.classList.add('selected'); // Add to clicked item
 };
 
 // Move to newly selected item
-exports.changeSelection = (direction) => {
+exports.changeSelection = (direction: string) => {
   const currentItem = this.getSelectedItem(); // Get selected item
 
   // Handle up/down
@@ -95,7 +97,7 @@ exports.open = () => {
 };
 
 // Add new item
-exports.addItem = (item, isNew = false) => {
+exports.addItem = (item: any, isNew: boolean = false) => {
   const itemNode = document.createElement('div'); // Create a new DOM node
   itemNode.setAttribute('class', 'read-item'); // Assign "read-item" class
   itemNode.setAttribute('data-url', item.url); // Set item url as data attribute
